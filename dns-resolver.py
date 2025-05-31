@@ -3,10 +3,19 @@ import struct
 import random
 
 ROOT_SERVERS = [
-    "198.18.18.18",
-    "199.9.14.201",
-    "192.0.2.2",
-    "199.9.14.202",
+    "198.41.0.4",     # A
+    "199.9.14.201",   # B
+    "192.33.4.12",    # C
+    "199.7.91.13",    # D
+    "192.203.230.10", # E
+    "192.5.5.241",    # F
+    "192.112.36.4",   # G
+    "198.97.190.53",  # H
+    "192.36.148.17",  # I
+    "192.58.128.30",  # J
+    "193.0.14.129",   # K
+    "199.7.83.42",    # L
+    "202.12.27.33"    # M
 ]
 
 DNS_PORT = 53
@@ -83,23 +92,23 @@ def resolve_domain(domain):
                 return ip_addresses
     return []   
 
-    ns_ips = []  # List to store NS IP addressens
-    offset-backup =  offset
-    for _ in range(arcount):
-        try:
-            offset_backup = offset
-            offset += 2  # Skip NAME
-            rtype, rclass, ttl, rdlength = struct.unpack('>HHIH', response[offset:offset + 10])
-            offset += 10
-            rdata = response[offset:offset + rdlength]
-            offset += rdlength
-            if rtype == 1 and rclass == 1:
-                ip_address = '.'.join(str(b) for b in rdata)
-                ns_ips.append(ip_address)
-        except struct.error:
-            print("Error parsing additional record. Skipping.")
-            offset = offset_backup
-    return None, ns_ips
+    # ns_ips = []  # List to store NS IP addressens
+    # offset-backup =  offset
+    # for _ in range(arcount):
+    #     try:
+    #         offset_backup = offset
+    #         offset += 2  # Skip NAME
+    #         rtype, rclass, ttl, rdlength = struct.unpack('>HHIH', response[offset:offset + 10])
+    #         offset += 10
+    #         rdata = response[offset:offset + rdlength]
+    #         offset += rdlength
+    #         if rtype == 1 and rclass == 1:
+    #             ip_address = '.'.join(str(b) for b in rdata)
+    #             ns_ips.append(ip_address)
+    #     except struct.error:
+    #         print("Error parsing additional record. Skipping.")
+    #         offset = offset_backup
+    # return None, ns_ips
 
 
 def resolve_ns(domain):
@@ -108,7 +117,8 @@ def resolve_ns(domain):
         for server_ip in servers:
             transaction_id, query_data = build_dns_query(domain)
             response = send_dns_query(server_ip, query_data)
-            ip-addresses, next_servers = parse_dns_response(response, transaction_id)
+            ip_addresses, next_servers = parse_dns_response(response, transaction_id)
+
             if ip_addresses:
                 return ip_addresses, next_servers
             if next_servers:
