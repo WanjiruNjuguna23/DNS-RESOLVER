@@ -1,0 +1,8 @@
+# DNS Resolver (Python)
+
+This is a recursive DNS resolver written in Python using sockets.
+
+## 🛠 How to Run
+
+```bash
+python dns_resolver.py
